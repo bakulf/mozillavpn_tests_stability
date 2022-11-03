@@ -42,7 +42,11 @@ async function render() {
     );
 
     total_count = response.data.total_count;
-    response.data.workflow_runs.forEach(wf => data.push({name: wf.name, run_started_at: wf.run_started_at, html_url: wf.html_url, who: wf.who, status: wf.status, conclusion: wf.conclusion}));
+    response.data.workflow_runs.forEach(wf => {
+      if (wf.head_branch === 'main') {
+        data.push({name: wf.name, run_started_at: wf.run_started_at, html_url: wf.html_url, who: wf.who, status: wf.status, conclusion: wf.conclusion});
+      }
+    });
     console.log(total_count, data.length);
 
     localStorage.setItem(
